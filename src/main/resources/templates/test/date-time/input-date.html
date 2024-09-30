@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org">    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+        <form th:action="@{/test/input}" method="POST" th:object="${dateEntity}">
+            <label>Date start:</label>
+            <p th:if="${#fields.hasErrors('start')}" th:errors="*{start}"></p>
+            <input type="date" name="dateStart" th:field="*{start}">
+
+            <label >Date End:</label>
+              <p th:if="${#fields.hasErrors('end')}" th:errors="*{end}"></p>
+              <input type="date" name="end" th:field="*{end}">
+            
+            <input type="submit" value="Enter"> 
+        </form>
+
+</body>
+<!-- th:errorclass="dateEnd" -->
+<style>
+    .error {
+        color: red;
+    }
+</style>
+</html>
+

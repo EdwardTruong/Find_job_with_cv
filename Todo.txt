@@ -1,0 +1,86 @@
+.Tìm kiếm theo user, nhưng có ý tưởng là liên kết các bảng lại với nhau. UserController số 10 chưa xong.
+.Gửi thư kèm theo JWT để có thể active account. UserServiceImpl saveNewUser Dòng 114.
+
+
+Thymeleaf with security
+Sử dụng :
+	sec:authorize="isAuthenticated()"
+	sec:authorize="!isAuthenticated()"
+	sec:authentication="principal.authorities"
+	sec:authentication="principal.fullName"	(using fields of object UserDetail in spring security - I make object UserDetailCustom implements UserDetail )
+	sec:authorize="hasRole('ROLE_USER')"
+	sec:authorize="hasRole('ROLE_COMPANY')"
+
+1. Login page: 
+public/login/login.html
+	
+	Nav-bar
+	
+ROLE - COMPANY	:														Only one time for at all.	
+	th:href="@{'/company/profile} 	 									---- DONE
+	th:href="@{/recruitment/list-post}									---- DONE
+	th:href="@{/recruitment/post										---- DONE
+	th:href="@{/apply/list-user}										---- DONE
+	
+ROLE - USER :		
+	th:href="@{/user/profile}											---- DONE
+	th:href="@{/save-job/get-list}										---- DONE
+	th:href="@{/apply/get-list}											---- DONE
+	th:href="@{/follow/get-list}										---- DONE
+	
+th:action="@{/auth/processLogin}" method="post"     @PostMapping		---- DONE
+th:href="@{/auth/register}"												---- DONE
+	
+================================================================================================
+2. Register page : 
+public/login/register.html
+	th:action="@{/auth/register}" method="post" 	 @PostMapping		---- DONE
+
+Comment : Controller layer												---- DONE
+================================================================================================
+3 Public page for ALL :
+
+	1.HOME :
+public/load/home.html 													---- DONE
+	
+	2.COMPANY DETAIL: 
+public/load/user/detail-company.html								
+	
+ 	
+Comment : Controller layer		
+	
+
+================================================================================================
+
+1.USER_ROLE : 
+	a.PROFILE : public/user/profile.html
+
+th:action="@{/user/storageNewCv}" method="post"
+th:href="@{'/user/pdf/'+${cv.id}+'/'+${cv.filename}}"
+th:href="@{'/user/deleteCv/' + ${cv.id}}"
+th:action="@{/user/confirm-account}" method="post"
+th:action="@{/user/update}" method="post"
+
+
+
+2.COMPANY_ROLE
+	a.PROFILE : public/user/profile.html
+	
+	
+================================================================================================
+public/load/user/list-save-job.
+USER_COMPANY : EMPTY 													---- DONE
+USER_ROLE : 
+th:id="${'idRe'}+${saveJob.recruitment.id}"								---- DONE
+th:id="${'loai1'}+${saveJob.recruitment.id}"							---- DONE
+th:id="${'loai2'}+${saveJob.recruitment.id}"							---- DONE
+th:href="${'/save-job/delete/'}+${saveJob.id}"	 						---- DONE
+	
+
+
+# https://github.com/wdkeyser02/SpringBootSecurityFullTutorial/blob/main/SpringBootSecurityFullTutorial/src/main/java/willydekeyser/repository/UserRepository.java
+#Check image cÃ³ thá» sá»­ dá»¥ng  <artifactId>commons-imaging</artifactId> vÃ  dÃ¹ng hÃ m  Imaging.guessFormat(file.getInputStream()) != null
+#Check sá»­ dá»¥ng csrf.
+#Báº¯t láº¥y nhá»¯ng url khÃ´ng tá»n táº¡i 
+#<!-- Making new function companies likes their own post lated -->
+#public/load/company-post/post-list 177

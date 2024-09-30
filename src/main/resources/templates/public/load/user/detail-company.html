@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" 
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org">
+<head>
+<title>Work CV</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=swap" rel="stylesheet">
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/assets/css/open-iconic-bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/animate.css}">
+<link rel="stylesheet" th:href="@{/assets/css/owl.carousel.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/owl.theme.default.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/magnific-popup.css}">
+<link rel="stylesheet" th:href="@{/assets/css/owl.carousel.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/owl.theme.default.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/aos.css}">
+<link rel="stylesheet" th:href="@{/assets/css/ionicons.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/bootstrap-datepicker.css}">
+<link rel="stylesheet" th:href="@{/assets/css/jquery.timepicker.css}">
+<link rel="stylesheet" th:href="@{/assets/css/css/bootstrap-reboot.css}">
+<link rel="stylesheet" th:href="@{/assets/css/css/mixins/_text-hide.css}">
+<link rel="stylesheet" th:href="@{/assets/css/flaticon.css}">
+<link rel="stylesheet" th:href="@{/assets/css/icomoon.css}">
+<link rel="stylesheet" th:href="@{/assets/css/style.css}">
+<link rel="stylesheet" th:href="@{/assets/css/bootstrap/bootstrap-grid.css}">
+<link rel="stylesheet" th:href="@{/assets/css/bootstrap/bootstrap-reboot.css}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+
+<!-- JS -->
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/jquery-migrate-3.0.1.min.js}"></script>
+<script th:src="@{/assets/js/popper.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/jquery.easing.1.3.js}"></script>
+<script th:src="@{/assets/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{/assets/js/jquery.stellar.min.js}"></script>
+<script th:src="@{/assets/js/owl.carousel.min.js}"></script>
+<script th:src="@{/assets/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/assets/js/aos.js}"></script>
+<script th:src="@{/assets/js/jquery.animateNumber.min.js}"></script>
+<script th:src="@{/assets/js/scrollax.min.js}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+<script th:src="@{/assets/js/google-map.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid px-md-4">
+			<a sec:authorize="!isAuthenticated()" class="navbar-brand" th:href="@{/}">HOME - WOKING CV</a>
+			<a sec:authorize="isAuthenticated()" class="navbar-brand" th:href="@{/home}">HOME - WOKING CV</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#ftco-nav" aria-controls="ftco-nav"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="oi oi-menu"></span> Menu
+			</button>
+			<div class="collapse navbar-collapse" id="ftco-nav">
+				<ul class="navbar-nav ml-auto">
+					<li sec:authorize="!isAuthenticated()" class="nav-item active"><a th:href="@{/}" class="nav-link">Trang chủ</a></li>
+					<li sec:authorize="isAuthenticated()" class="nav-item active"><a th:href="@{/home}" class="nav-link">Trang chủ</a></li>
+					<li class="nav-item"><a th:href="@{/jobs}" class="nav-link">Công việc</a></li> 
+					<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_USER')">
+						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" th:text="${user.fullName}"></a>
+						<ul class="dropdown-menu dropdown2">
+							<li><a th:href="@{/user/profile}">Hồ Sơ</a></li>
+            				<li><a th:href="@{/save-job/get-list}" >Công việc đã lưu</a></li>
+            				<li><a th:href="@{/apply/get-list}" >Công việc ứng tuyển</a></li>
+            				<li><a th:href="@{/follow/get-list}" >Công ty đã theo dõi</a></li>
+						</ul>
+					</li>
+					<li sec:authorize="hasRole('ROLE_COMPANY')" class="nav-link">
+						<span th:text="${user.nameCompany}"></span>
+						</li> 
+					<li sec:authorize="hasRole('ROLE_COMPANY')" class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Đăng tuyển</a>
+							<ul class="dropdown-menu dropdown2">
+								<li><a th:href="@{/company/profile}">Hồ Sơ</a></li>
+								<li><a th:href="@{/recruitment/list-post}" >Danh sách bài đăng</a></li>
+								<li><a th:href="@{/recruitment/post}">Đăng tuyển</a> </li>
+								<li><a th:href="@{/apply/list-user}" >Ứng cử viên tiềm năng</a></li>
+							</ul>
+					</li>	
+					<li sec:authorize="isAuthenticated()" class="nav-item cta cta-colored"><a th:href="@{/auth/logout}" class="nav-link">Đăng xuất</a></li>
+					<li sec:authorize="!isAuthenticated()" class="nav-item cta cta-colored"><a th:href="@{/auth/login}" class="nav-link">Đăng nhập</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- END nav -->
+
+
+
+<div class="hero-wrap hero-wrap-2" style="background-image: url('/assets/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+            <div class="col-md-12 text-center mb-5">
+                <p class="breadcrumbs mb-0"><span class="mr-3"><a href="index.html">Trang chủ <i class="ion-ios-arrow-forward"></i></a></span>Chi tiết <span></span></p>
+                <h1 class="mb-3 bread">Chi tiết công ty</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section style="margin-top: 10px" class="site-section mb-3">
+    <div class="container">
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-8 mb-4 mb-lg-0">
+                <div class="d-flex align-items-center">
+                    <div class="border p-2 d-inline-block mr-3 rounded">
+                        <img width="100" height="100" th:src=" @{'/assets/upload/' + ${company.logo}}" alt="Image">
+                    </div>
+                    <div>
+                        <h2 th:text="${company.name}"></h2>
+                        <div>
+                            <span class="icon-briefcase mr-2"></span><span th:text="${company.email}" class="ml-0 mr-2 mb-2"></span>
+                            <span  class="icon-room mr-2"></span ><span th:text="${company.address}" class="m-2"></span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div sec:authorize="isAuthenticated()" class="col-6">
+                        <a th:unless="${user.followId != 0 }" sec:authorize="hasRole('ROLE_USER')" onclick="follow()" class="btn btn-block btn-light btn-md"><span class="icon-heart-o mr-2 text-danger"></span>Theo dõi</a>
+                        <a th:if="${user.followId != 0 }" th:href="@{'/follow/delete-follow/' +${user.followId}}" class="btn btn-block btn-light btn-md"><i class="bi bi-heart-fill mr-2 text-danger"></i>Hủy theo dõi</a>
+                    </div>
+                    <input type="hidden" id="idCompany" th:value="${company.id}">
+                    <div sec:authorize="!isAuthenticated()" class="col-6">
+                        <a  onclick="follow()" class="btn btn-block btn-light btn-md"><span class="icon-heart-o mr-2 text-danger"></span>Theo dõi</a>
+                    </div>
+                    <div class="col-6">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="mb-5">
+
+                    <h3 class="h5 d-flex align-items-center mb-4 text-primary"><span class="icon-align-left mr-3"></span>Mô tả công việc</h3>
+                    <p th:utext="${company.description}"></p>
+                </div>
+
+            </div>
+            <div class="col-lg-4">
+                <div class="bg-light p-3 border rounded mb-4">
+                    <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Tóm tắt công việc</h3>
+                    <div class="d-flex justify-content-around">
+                        <ul class="list-unstyled pl-3 mb-0">
+                            <li class="mb-2"><strong class="text-black">Email công ty: </strong> </li>
+                            <li class="mb-2"><strong class="text-black">Số điện thoại: </strong> </li>
+                            <li class="mb-2"><strong class="text-black">Đại chỉ: </strong></li>
+                        </ul>
+                        <ul class="list-unstyled pl-3 mb-0">
+                            <li class="mb-2" th:text="${company.email}"></li>
+                            <li class="mb-2" th:text="${company.phoneNumber}"></li>
+                            <li class="mb-2" th:text="${company.address}"></li>
+                        </ul>
+                    </div>
+                       
+                </div>
+
+                <div class="bg-light p-3 border rounded">
+                    <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Share</h3>
+                    <div class="px-3">
+                        <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-facebook"></span></a>
+                        <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-twitter"></span></a>
+                        <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-linkedin"></span></a>
+                        <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-pinterest"></span></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function follow(){
+            var formData = new FormData();
+
+            var idCompany = $("#idCompany").val();
+            formData.append('idCompany', idCompany);
+            console.log('Console.log : idCompany:', idCompany);
+            console.log('Console.log : name:', name);
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/follow/follow-company/' + idCompany,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (data) {
+                        if(data == "false"){
+                            swal({
+                                title: 'Bạn đã theo dõi công ty này!',
+                                /* text: 'Redirecting...', */
+                                icon: 'error',
+                                timer: 3000,
+                                buttons: true,
+                                type: 'error'
+                            })
+                        }else if(data == "true"){
+                            swal({
+                                title: 'Theo dõi thành công!',
+                                /* text: 'Redirecting...', */
+                                icon: 'success',
+                                timer: 3000,
+                                buttons: true,
+                                type: 'success'
+                            })
+                        }else{
+                            swal({
+                                title: 'Bạn đã cần phải đăng nhập!',
+                                /* text: 'Redirecting...', */
+                                icon: 'error',
+                                timer: 3000,
+                                buttons: true,
+                                type: 'error'
+                            })
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                }
+            )
+        }
+    </script>
+</section>
+
+<footer th:replace="~{public/fragments :: footer}"></footer>
+
+
+</body>
+</html>

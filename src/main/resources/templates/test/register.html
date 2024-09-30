@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form th:action="@{save}" th:object="${user}" method="post">
+        <label for="name">Full name :</label>
+        <input type="text" th:field="*{fullName}" id="fullName">
+        <p th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Name Error</p>
+        <br>
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+        <label class="text-black" for="email">Email</label>
+        <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="Email"> <!--id="email" name="email" th:field="*{email}" -->
+        <br>
+
+<!-- new -->
+      
+        
+        <label class="text-black" for="passwordInput">Mật khẩu</label>
+        <input type="password" id="passwordInput" th:field="*{password}" class="form-control" placeholder="Mật khẩu"> <!-- id=""  name="password"  -->
+        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password</p>
+        <br>
+    
+     
+    
+        <label class="text-black" for="confirmPasswordInput">Nhập lại mật khẩu</label>
+        <input type="password"  name="rePassword" th:field="*{rePassword}" id="confirmPasswordInput" class="form-control" placeholder="Nhập lại mật khẩu"> <!-- id="fname" name="rePassword" -->
+        <p th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">rePassword</p>
+        <br>
+<!-- Chưa có role -->
+    
+        <!-- <label class="text-black" for="role">Vai trò</label>
+        <p th:if="${#fields.hasErrors('role')}" th:errors="*{role}">rePassword</p>
+        <select class="form-control" id="role" th:field="*{role}" aria-label="Default select example" th:switch="${role.id}">
+    
+            <option value="" >Chọn vai trò</option>
+    
+            <option th:value="1">Ứng cử viên</option>
+    
+            <option th:value="2">Công ty</option>
+        
+        </select> -->
+<br> 
+        <label class="text-black" for="role">Vai trò</label>
+        <p th:if="${errorRole}"class="alert alert-danger">[[${errorRole}]]</p>
+        <select class="form-control" id="role" th:field="*{role}" aria-label="Default select example" th:switch="${role}">
+    
+            <option th:value="-1">Chọn vai trò</option>
+    
+            <option th:value="1">Ứng cử viên</option>
+    
+            <option th:value="2">Công ty</option>
+        
+        </select>
+
+        <br> 
+    </div>
+    
+</div>
+        <input type="submit" value="SAVE">
+    </form>
+</body>
+</html>
+

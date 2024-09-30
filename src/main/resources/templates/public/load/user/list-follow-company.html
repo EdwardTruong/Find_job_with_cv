@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns="http://www.w3.org/1999/xhtml"lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Work CV</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=swap" rel="stylesheet">
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/assets/css/open-iconic-bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/animate.css}">
+<link rel="stylesheet" th:href="@{/assets/css/owl.carousel.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/owl.theme.default.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/magnific-popup.css}">
+<link rel="stylesheet" th:href="@{/assets/css/owl.carousel.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/owl.theme.default.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/aos.css}">
+<link rel="stylesheet" th:href="@{/assets/css/ionicons.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/bootstrap-datepicker.css}">
+<link rel="stylesheet" th:href="@{/assets/css/jquery.timepicker.css}">
+<link rel="stylesheet" th:href="@{/assets/css/css/bootstrap-reboot.css}">
+<link rel="stylesheet" th:href="@{/assets/css/css/mixins/_text-hide.css}">
+<link rel="stylesheet" th:href="@{/assets/css/flaticon.css}">
+<link rel="stylesheet" th:href="@{/assets/css/icomoon.css}">
+<link rel="stylesheet" th:href="@{/assets/css/style.css}">
+<link rel="stylesheet" th:href="@{/assets/css/bootstrap/bootstrap-grid.css}">
+<link rel="stylesheet" th:href="@{/assets/css/bootstrap/bootstrap-reboot.css}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+<!-- JS -->
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/jquery-migrate-3.0.1.min.js}"></script>
+<script th:src="@{/assets/js/popper.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/jquery.easing.1.3.js}"></script>
+<script th:src="@{/assets/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{/assets/js/jquery.stellar.min.js}"></script>
+<script th:src="@{/assets/js/owl.carousel.min.js}"></script>
+<script th:src="@{/assets/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/assets/js/aos.js}"></script>
+<script th:src="@{/assets/js/jquery.animateNumber.min.js}"></script>
+<script th:src="@{/assets/js/scrollax.min.js}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+<script th:src="@{/assets/js/google-map.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid px-md-4">
+			<a sec:authorize="!isAuthenticated()" class="navbar-brand" th:href="@{/}">HOME - WOKING CV</a>
+			<a sec:authorize="isAuthenticated()" class="navbar-brand" th:href="@{/home}">HOME - WOKING CV</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#ftco-nav" aria-controls="ftco-nav"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="oi oi-menu"></span> Menu
+			</button>
+			<div class="collapse navbar-collapse" id="ftco-nav">
+				<ul class="navbar-nav ml-auto">
+				    <li sec:authorize="!isAuthenticated()" class="nav-item"><a th:href="@{/}" class="nav-link">Trang chủ</a></li>
+				    <li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/home}" class="nav-link">Trang chủ</a></li>
+					<li class="nav-item"><a th:href="@{/jobs}" class="nav-link">Công việc</a></li> 
+                    <li sec:authorize="hasRole('ROLE_USER')"class="nav-link" th:text="${session.user.fullName}"></li>	
+					<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_USER')">
+						<a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Công ty đã theo dõi</a>
+						<ul class="dropdown-menu dropdown2">
+							<li><a th:href="@{/user/profile}">Hồ Sơ</a></li>
+            				<li><a th:href="@{/save-job/get-list}" >Công việc đã lưu</a></li>
+            				<li><a th:href="@{/apply/get-list}" >Công việc đã ứng tuyển</a></li>
+            				<li><a th:href="@{/follow/get-list}" >Công ty đã theo dõi</a></li>
+						</ul>
+					</li>
+					<li sec:authorize="hasRole('ROLE_COMPANY')" class="nav-link">
+						<span th:text="${user.nameCompany}"></span>
+						</li> 
+					<li sec:authorize="hasRole('ROLE_COMPANY')" class="nav-item dropdown ">
+						<a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Danh sách bài đăng</a>
+                        <ul class="dropdown-menu dropdown2">
+                            <li><a th:href="@{/company/profile}">Hồ Sơ</a></li>
+                            <li><a th:href="@{/recruitment/list-post}" >Danh sách bài đăng</a></li>
+                            <li><a th:href="@{/recruitment/post}">Đăng tuyển</a> </li>
+                            <li><a th:href="@{/apply/list-user}" >Ứng cử viên tiềm năng</a></li>
+                        </ul>
+					</li>	
+					<li sec:authorize="isAuthenticated()" class="nav-item cta cta-colored"><a th:href="@{/auth/logout}" class="nav-link">Đăng xuất</a></li>
+					<li sec:authorize="!isAuthenticated()" class="nav-item cta cta-colored"><a th:href="@{/auth/login}" class="nav-link">Đăng nhập</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+ <!-- END nav -->
+
+<div th:if="${success}" class="toast" data-delay="2000" style="position:fixed;top: 100PX; right: 10PX;z-index: 2000;width: 300px">
+    <script>
+        swal({
+            title: 'Xóa thành công!',
+            /* text: 'Redirecting...', */
+            icon: 'success',
+            timer: 3000,
+            buttons: true,
+            type: 'success'
+        })
+    </script>
+</div>
+<!-- END nav -->
+<div class="hero-wrap hero-wrap-2" th:style="'background-image: url('+@{/assets/images/bg_1.jpg}+');'" data-stellar-background-ratio="0.5" sec:authorize="hasRole('ROLE_USER')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+            <div class="col-md-12 text-center mb-5">
+                <p class="breadcrumbs mb-0"><span class="mr-3"><a href="/">Trang chủ <i class="ion-ios-arrow-forward"></i></a></span>Công ty <span></span></p>
+                <h1 class="mb-3 bread">Danh sách công ty đã theo dõi</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="hero-wrap hero-wrap-2" th:style="'background-image: url('+@{/assets/images/bg_1.jpg}+');'" data-stellar-background-ratio="0.5" sec:authorize="hasRole('ROLE_COMPANY')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+            <div class="col-md-12 text-center mb-5">
+                <h1 class="mb-3 bread">Không tìm thấy trang yêu cầu</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section bg-light" sec:authorize="hasRole('ROLE_USER')">
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 pr-lg-5">
+                <div th:if="${success}" class="alert alert-success" style="width: 50%;">[[${success}]]</div>
+                <div th:if="${error}" class="alert alert-success" style="width: 50%;">[[${error}]]</div>
+                <div th:if="${followList.totalPages > 0}" class="row">
+                    <th:block th:each="saveJob : ${followList.content}">
+                        <div class="col-md-12 ">
+                            <div class="job-post-item p-4 d-block d-lg-flex align-items-center">
+                                <div class="one-third mb-4 mb-md-0">
+                                    <div class="job-post-item-header align-items-center">
+                                        <h2 class="mr-3 text-black" ><a th:text="${saveJob.company.name}" th:href="${'/detail-company/'}+${saveJob.company.id}"></a></h2>
+                                    </div>
+                                    <div class="job-post-item-body d-block d-md-flex">
+                                        <div class="mr-3"><span class="icon-layers"></span> <a href="#" th:text="${saveJob.company.email}" ></a></div>
+                                        <div class="mr-3"><span class="icon-my_location"></span> <span th:text="${saveJob.company.address}"></span></div>
+                                        <div style="margin-left: 10"><span class="icon-my_location"></span> <span th:text="${saveJob.company.phoneNumber}"></span></div>
+                                    </div>
+                                </div>
+                               
+                                <div class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0" style="width:370px !important;">
+                                    <div>
+                                        <a  th:href="${'/follow/delete-follow/'}+${saveJob.id}" class="icon text-center d-flex justify-content-center align-items-center icon mr-2">
+                                            <span class="icon-delete"></span>
+                                        </a>
+                                    </div>
+                                    <a th:href="${'/detail-company/'}+${saveJob.company.id}" class="btn btn-primary py-2">Chi tiết</a>
+                                    <a th:href="${'/user/company-posts/'}+${saveJob.company.id}" class="btn btn-warning py-2 ml-1">Danh sách bài đăng</a>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>   <!-- end -->
+          	
+          	<!-- pagination -->
+                <div style="text-align: center" th:if="${followList.totalPages < 1}">
+                    <p style="color:red;">Danh sách trống</p>
+                </div>
+                 <div th:unless="${followList.totalPages < 1}" class="row mt-5">
+                    <div class="col text-center">
+                        <div class="block-27">
+                            <ul>
+                               <li th:if="${followList.number != 0  }">
+                               <a th:href="@{/follow/get-list(page = ${followList.number})}">&lt;</a> </li>
+                                <th:block th:each="arr,state  : ${arr}">
+                                    <li th:class="${followList.number == state.index  ? 'active' : null}">
+                                        <a th:href="@{/follow/get-list(page = ${state.index +1})}" th:text="${state.index + 1}"></a>
+                                    </li>
+                                </th:block> 
+                                <li th:if="${followList.number != numberPage-1 }">
+                                    <a th:href="@{/follow/get-list(page = ${followList.number +2})}">&gt;</a>
+                                </li>
+                            </ul> 
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<footer th:replace="~{public/fragments :: footer}" ></footer>
+
+
+
+</body>
+</html>

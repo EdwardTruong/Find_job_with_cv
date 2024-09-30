@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns="http://www.w3.org/1999/xhtml"lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Test Time Field</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+
+
+    <a th:href="@{/test/form}">Form</a>
+    <p th:if=${success} style="color: green;">[[${success}]]</p>
+    <ul>
+        <li>Start date</li>
+        <li>End date</li>
+         <li>Count date</li>
+    </ul>
+    <h2>Cũ load ok rồi</h2>
+        <ul th:each="date : ${dates}">
+            <li th:text="${date.start}"></li>
+            <li th:text="${date.end}"></li> 
+
+        </ul>
+    <h2>Kiểu của java</h2>
+    <p>Date without time :</p>
+    <p th:text="${dateWithoutTime}"></p>    
+    
+    <h2>Kiểu dd-mm-yyyy</h2>
+    <ul th:each="date : ${dates}">
+      <li th:text="${#dates.format(date.start, 'dd-MM-yyyy')}"></li>
+      <li th:text="${date.end}"></li> 
+
+  </ul>
+
+
+  <!-- Ví dụ chưa dùng tới -->
+    <p th:with="formattedDate=${#temporals.format(date, 'yyyy-MM-dd')}"></p>
+    <p th:text="${formattedDate}"></p>
+
+</body>
+</html>

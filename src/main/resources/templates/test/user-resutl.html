@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" 
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+Ông nội mài hiện lên đi !
+
+       <ul th:each="company : ${list}">
+        	<li th:text=${company.name}></li>
+        	<li th:text=${company.email}></li>
+        
+        
+        </ul>
+        
+</body>
+</html>

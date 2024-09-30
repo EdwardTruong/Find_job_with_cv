@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+ xmlns:sec="http://www.thymeleaf.org" lang="en">
+<head>
+<title>All Users</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=swap"
+	rel="stylesheet">
+
+<!-- CSS -->
+<link rel="stylesheet"
+	th:href="@{/assets/css/open-iconic-bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/animate.css}">
+<link rel="stylesheet" th:href="@{/assets/css/owl.carousel.min.css}">
+<link rel="stylesheet"
+	th:href="@{/assets/css/owl.theme.default.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/magnific-popup.css}">
+<link rel="stylesheet" th:href="@{/assets/css/owl.carousel.min.css}">
+<link rel="stylesheet"
+	th:href="@{/assets/css/owl.theme.default.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/aos.css}">
+<link rel="stylesheet" th:href="@{/assets/css/ionicons.min.css}">
+<link rel="stylesheet" th:href="@{/assets/css/bootstrap-datepicker.css}">
+<link rel="stylesheet" th:href="@{/assets/css/jquery.timepicker.css}">
+<link rel="stylesheet" th:href="@{/assets/css/css/bootstrap-reboot.css}">
+<link rel="stylesheet"
+	th:href="@{/assets/css/css/mixins/_text-hide.css}">
+<link rel="stylesheet" th:href="@{/assets/css/flaticon.css}">
+<link rel="stylesheet" th:href="@{/assets/css/icomoon.css}">
+<link rel="stylesheet" th:href="@{/assets/css/style.css}">
+<link rel="stylesheet"
+	th:href="@{/assets/css/bootstrap/bootstrap-grid.css}">
+<link rel="stylesheet"
+	th:href="@{/assets/css/bootstrap/bootstrap-reboot.css}">
+
+<!-- JS -->
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/jquery-migrate-3.0.1.min.js}"></script>
+<script th:src="@{/assets/js/popper.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/jquery.easing.1.3.js}"></script>
+<script th:src="@{/assets/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{/assets/js/jquery.stellar.min.js}"></script>
+<script th:src="@{/assets/js/owl.carousel.min.js}"></script>
+<script th:src="@{/assets/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/assets/js/aos.js}"></script>
+<script th:src="@{/assets/js/jquery.animateNumber.min.js}"></script>
+<script th:src="@{/assets/js/scrollax.min.js}"></script>
+<script th:src="@{/assets/js/google-map.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+<script
+	src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+<body class="sb-nav-fixed">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid px-md-4	">
+			<a class="navbar-brand" href="/">Work CV</a>
+
+			<div class="collapse navbar-collapse" id="ftco-nav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a href="/" class="nav-link">Trang chủ</a></li>
+					<li class="nav-item active"><a th:href="@{/admin/users}">Quản lý người dùng</a></li>
+					<li class="'nav-item"><a href="/" class="nav-link">Công việc</a></li>
+					<li class="nav-item"><a href="/" class="nav-link">Ứng cử viên</a></li>
+					<li class="nav-item cta mr-md-1"><a href="/recruitment/post" class="nav-link">Đăng tuyển</a></li>
+					<li class="nav-item cta cta-colored"><a th:href="@{/auth/login}" class="nav-link">Đăng nhập</a></li>
+				</ul>
+				<div>
+					<ul class="dropdown">
+						<li><a href="/">Hồ Sơ</a></li>
+						<li><a href="/save-job/get-list">Công việc đã lưu</a></li>
+						<li><a href="/user/list-post">Danh sách bài đăng</a></li>
+						<li><a href="/user/get-list-apply">Công việc đã ứng tuyển</a></li>
+						<li><a href="/user/get-list-company">Công ty đã theo dõi</a></li>
+						<li><a th:if="${session.user != null}" href="/auth/logout">Đăng
+								xuất</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<!--Cái Nav làm sau-->
+	<div id="layoutSidenav_nav">
+		<div th:fragment="html_menu" id="layoutSidenav_nav">
+			<nav class="sb-sidenav accordion sb-sidenav-dark"
+				id="sidenavAccordion">
+				<div class="sb-sidenav-menu">
+					<div class="nav">
+						<a class="nav-link" th:href="@{/admin/users}"> <i
+							class="sb-nav-link-icon"> <i class="fas fa-tachometer-alt"></i>
+						</i> Quản lý người dùng
+						</a> <a class="nav-link" th:href="@{/admin/donations}"> <i
+							class="sb-nav-link-icon"> <i class="fas fa-tachometer-alt"></i>
+						</i> Bài đăng
+						</a>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
+
+	<main>
+		<div class="container-fluid px-4">
+			<h1 class="mt-4">Danh sách người dùng</h1>
+			<div class="card mb-4">
+				<div class="card-header">
+
+					<div th:if="${message}" class="alert alert-success text-center">
+						[[${message}]]</div>
+
+					<div class="d-flex justify-content-between">
+						<!-- <a th:href="@{/admin/showFormAddNewUser}"> -->
+						<button type="button" class="btn btn-success"
+							data-bs-toggle="modal">Thêm mới</button>
+						<!-- </a> -->
+						<form>
+							<div class="input-group input-group-sm mr-3"
+								style="width: 300px;">
+								<input type="text" name="input" th:value="${input}"
+									class="form-control float-right" placeholder="Search email" />
+								<div class="input-group-append">
+									<button type="submit" class="btn btn-default">
+										<i class="fas fa-search"></i>
+									</button>
+								</div>
+
+							</div>
+						</form>
+					</div>
+
+					<!-- Main-->
+					<div class="card-body" style="width: auto;">
+						<table id="table">
+							<thead style="text-align: center">
+								<tr style="background-color: gray !important;">
+									<th>ID</th>
+									<th>Họ tên</th>
+									<th>Email</th>
+									<th>Số điện thoại</th>
+									<th>Mô tả</th>
+									<th>Vai trò</th>
+									<th>Trạng thái</th>
+									<th>Hành động</th>
+								</tr>
+							</thead>
+
+							<tbody style="text-align: center">
+								<th:block th:each="user : ${users}">
+									<tr>
+										<td th:text="${user.id}"></td>
+										<td th:text="${user.fullName}"></td>
+										<td th:text="${user.email}"></td>
+										<td th:text="${user.phoneNumber}"></td>
+										<td th:text="${user.description}"></td>
+										<td style="text-align: center;">
+											<ul th:each="role : ${user.roles}">
+												<li th:text="${role.name}"></li>
+											</ul>
+										</td>
+										<td style="width: 370px"><a
+											th:href="@{/admin/userDetail/{id}(id=${user.id})}">
+												<button type="button" style="width: 80px"
+													class="btn btn-success mr-3" data-bs-toggle="modal">Chi
+													tiết</button>
+										</a> <a th:href="@{'/admin/userEdit/' +${user.id}}">
+												<button type="button" style="width: 80px"
+													class="btn btn-success mx-3" data-bs-toggle="modal">Sữa</button>
+										</a></td>
+										<td th:switch="${user.status}"><span th:case="${!true}">Khóa</span>
+											<span th:case="${true}">Hoạt động</span></td>
+										<!-- <form th:if="${user.role.id != 1}"
+												th:action="@{/admin/changeStatutToLock/{id}(id=${user.id})}"
+												method="POST" th:object="${user}">
+												<button th:if="${user.status== 0}"
+													class="btn btn-success mt-2 ">Mở Khoá</button>
+												<button th:if="${user.status == 1}"
+													class="btn btn-danger mt-2">Khóa</button>
+											</form> -->
+									</tr>
+								</th:block>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
