@@ -5,6 +5,20 @@ Hi there, If you see this GitHub account, it means there is an issue with my mai
 Website for job hunting.
 
 
+## Function
+For email function :
+ Go to 
+ 
+     https://www.google.com/settings/security/lesssecureapps
+ And : 
+         
+         Allow less secure apps : ON
+  If the email account does not allow that feature, it needs to be changed to another email.
+
+  ---> In the application.properties, I have an example email which has the email sending feature turned off. You can replace it with your email and follow the steps above to make the function work efficiently
+  
+ ![Screenshot 2024-10-23 144139](https://github.com/user-attachments/assets/f425bbda-3c25-4778-b146-6e4f447fa0d0)
+
 
 ## Knowledges
 
