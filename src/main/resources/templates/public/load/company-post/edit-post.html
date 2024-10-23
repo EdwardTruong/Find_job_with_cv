@@ -219,14 +219,13 @@
 				<form th:action="@{'/recruitment/update/'+${recruitment.id}}"
 					method="post" th:object="${recruitment}">
 					<input type="hidden" th:field="*{id}" th:value="${recruitment.id}">
-					<input type="hidden" th:field="*{view}" th:value="${recruitment.view}">
-					<input type="hidden" th:field="*{status}" th:value="${recruitment.status}">
-					<input type="hidden" th:field="*{createdAt}" th:value="${recruitment.createdAt}"> 
-					<input type="hidden" th:field="*{companyEntity}" th:value="${recruitment.companyEntity}">
-					<input type="hidden" th:field="*{listUserSavedThisJob}" th:value="${recruitment.listUserSavedThisJob}">
-					<input type="hidden" th:field="*{listUserApplyThisJob}" th:value="${recruitment.listUserApplyThisJob}">
-
-						
+					<input type="hidden" th:field="*{view}"
+						th:value="${recruitment.view}"> <input type="hidden"
+						th:field="*{status}" th:value="${recruitment.status}"> <input
+						type="hidden" th:field="*{createdAt}"
+						th:value="${recruitment.createdAt}"> <input type="hidden"
+						th:field="*{companyEntity}"
+						th:value="${recruitment.companyEntity}">
 
 					<div class="row align-items-center mb-5">
 						<div class="col-lg-8 mb-4 mb-lg-0">

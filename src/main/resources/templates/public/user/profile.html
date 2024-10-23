@@ -346,9 +346,6 @@
 		<form th:action="@{/user/update}" method="post"
 			th:object="${userInformation}">
 			<input th:if="${userInformation.avatar != null}" type="hidden" th:field="*{avatar}" th:value="${userInformation.avatar}">
-			<input type="hidden" th:field="*{id}" th:value="${userInformation.id}">
-			<input type="hidden" th:field="*{status}" th:value="${userInformation.status}">
-			
 			<input type="hidden" th:field="*{authorities}" th:value="${userInformation.authorities}">
 			<input type="hidden" th:field="*{listCvEntity}" th:value="${userInformation.listCvEntity}">
 			<input type="hidden" th:field="*{listCompanyFollower}" th:value="${userInformation.listCompanyFollower}">  

@@ -23,13 +23,13 @@ ROLE - COMPANY	:														Only one time for at all.
 	th:href="@{/apply/list-user}										---- DONE
 	
 ROLE - USER :		
-	th:href="@{/user/profile}											---- DONE
+	th:href="@{/user/profile}										---- DONE
 	th:href="@{/save-job/get-list}										---- DONE
-	th:href="@{/apply/get-list}											---- DONE
+	th:href="@{/apply/get-list}										---- DONE
 	th:href="@{/follow/get-list}										---- DONE
 	
-th:action="@{/auth/processLogin}" method="post"     @PostMapping		---- DONE
-th:href="@{/auth/register}"												---- DONE
+th:action="@{/auth/processLogin}" method="post"     @PostMapping						---- DONE
+th:href="@{/auth/register}"											---- DONE
 	
 ================================================================================================
 2. Register page : 
@@ -69,9 +69,9 @@ th:action="@{/user/update}" method="post"
 	
 ================================================================================================
 public/load/user/list-save-job.
-USER_COMPANY : EMPTY 													---- DONE
+USER_COMPANY : EMPTY 										---- DONE
 USER_ROLE : 
-th:id="${'idRe'}+${saveJob.recruitment.id}"								---- DONE
+th:id="${'idRe'}+${saveJob.recruitment.id}"							---- DONE
 th:id="${'loai1'}+${saveJob.recruitment.id}"							---- DONE
 th:id="${'loai2'}+${saveJob.recruitment.id}"							---- DONE
 th:href="${'/save-job/delete/'}+${saveJob.id}"	 						---- DONE

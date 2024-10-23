@@ -257,8 +257,6 @@
 						<div class="row form-group">
 							<div class="col-md-12 mb-3 mb-md-0">
 								<label class="text-black" for="passwordInput">Mật khẩu</label>
-								<p th:if="${errorsPassword}" th:text="${errorsPassword}"
-									class="alert alert-danger"></p>
 								<p th:if="${#fields.hasErrors('password')}"
 									th:errors="*{password}" class="alert alert-danger"></p>
 								<input type="password" id="passwordInput" name="passwordInput"
@@ -274,6 +272,8 @@
 									lại mật khẩu</label>
 								<p th:if="${errorRePassword}" th:text="${errorRePassword}"
 									class="alert alert-danger"></p>
+								<p th:if="${#fields.hasErrors('rePassword')}"
+									th:errors="*{rePassword}" class="alert alert-danger"></p>
 								<input type="password" name="confirmPasswordInput"
 									th:field="*{rePassword}" id="confirmPasswordInput"
 									class="form-control" placeholder="Nhập lại mật khẩu">
