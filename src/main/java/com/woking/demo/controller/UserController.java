@@ -30,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.woking.demo.config.SecurityUtils;
 import com.woking.demo.dto.CompanyDto;
+import com.woking.demo.dto.CompanyResponseFindDto;
 import com.woking.demo.dto.CvDto;
 import com.woking.demo.dto.UserDto;
 import com.woking.demo.entity.CompanyEntity;
@@ -136,7 +137,7 @@ public class UserController {
 
 	@Autowired
 	FileService fileService;
-	
+
 	@Autowired
 	CompanyMapper companyMapper;
 
@@ -144,7 +145,7 @@ public class UserController {
 	List<CompanyEntity> listUserFollow = new ArrayList<>();
 	List<RecruitmentEntity> listUserApplied = new ArrayList<>();
 	List<RoleEntity> roles = new ArrayList<>();
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	// 1. DOUBLE CHECK DONE !
@@ -165,13 +166,13 @@ public class UserController {
 		listUserFollow = user.getListCompanyFollower();
 		listUserSaved = user.getListSavejob();
 		roles = user.getAuthorities();
-		for(RecruitmentEntity r : user.getListAppliedOfUser()) {
-			logger.info("List applied of user :  "+ r.toString());
-			
+		for (RecruitmentEntity r : user.getListAppliedOfUser()) {
+			logger.info("List applied of user :  " + r.toString());
+
 		}
-		
-		theModel.addAttribute("listCvEntity",user.getListCvEntity());
-		
+
+		theModel.addAttribute("listCvEntity", user.getListCvEntity());
+
 		List<CvDto> cvs = cvMapper.toListDto(user.getListCvEntity());
 		if (!cvs.isEmpty()) {
 			theModel.addAttribute("cvs", cvs);
@@ -179,9 +180,11 @@ public class UserController {
 		fileService.initCreateLocalDisk(userAuthenticated.getId());
 		userAuthenticated = userMapper.toDto(user);
 
-		theModel.addAttribute("files", fileService.loadAll(userAuthenticated.getId()).map(path -> MvcUriComponentsBuilder
-				.fromMethodName(UserController.class, "serveFile", path.getFileName().toString(), user.getId(), session)
-				.build().toUri().toString()).collect(Collectors.toList()));
+		theModel.addAttribute("files",
+				fileService.loadAll(userAuthenticated.getId()).map(path -> MvcUriComponentsBuilder
+						.fromMethodName(UserController.class, "serveFile", path.getFileName().toString(), user.getId(),
+								session)
+						.build().toUri().toString()).collect(Collectors.toList()));
 		return "public/user/profile";
 	}
 
@@ -229,7 +232,7 @@ public class UserController {
 			theModel.addAttribute("error", "Cập nhật thông tin không thành công.");
 			return "public/user/profile";
 		}
-		
+
 		userInformation.setId(userAuthenticated.getId());
 		userInformation.setPassword(userAuthenticated.getPassword());
 		userInformation.setStatus(userAuthenticated.isStatus());
@@ -275,9 +278,9 @@ public class UserController {
 
 		Resource file = fileService.loadAsResource(filename, idUser);
 		if (file == null) {
-			return ResponseEntity.notFound().build();	
+			return ResponseEntity.notFound().build();
 		}
-		
+
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
 				.body(file);
@@ -363,6 +366,10 @@ public class UserController {
 		return "public/load/user/post-company";
 	}
 
+	/*
+	 * Using CompanyResponseFindDto form dao(repository) to -> controller and return
+	 * to view
+	 */
 	@GetMapping("/search")
 	public String search(@RequestParam(value = "keySearch", required = false) String keySearch, Model theModel,
 			HttpSession session, @RequestParam(value = "page", defaultValue = "1") Integer pageNo) {
@@ -375,8 +382,8 @@ public class UserController {
 		}
 
 		int pageSize = 5;
-		Page<CompanyDto> companiesDto = companyService.findByKeyword(keySearch, pageNo, pageSize);		
-		theModel.addAttribute("list", companiesDto);
+		Page<CompanyResponseFindDto> companiesDto = companyService.findCompanybyKeywordToDTO(keySearch, pageNo,
+				pageSize);
 
 		int numberPage = companiesDto.getTotalPages();
 		int[] arr = appUtil.getNumberPagation(numberPage);

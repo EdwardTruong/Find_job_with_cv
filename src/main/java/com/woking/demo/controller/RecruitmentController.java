@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.woking.demo.config.SecurityUtils;
 import com.woking.demo.dto.CvDto;
 import com.woking.demo.dto.RecruitmentDto;
+import com.woking.demo.dto.RecruitmentResponseFindDto;
 import com.woking.demo.dto.UserDto;
 import com.woking.demo.entity.Applyjob;
 import com.woking.demo.entity.CategoryEntity;
@@ -145,7 +146,8 @@ public class RecruitmentController {
 		theModel.addAttribute("user", userAuthenticated);
 
 		int pageSize = 5;
-		Page<RecruitmentEntity> recruimenstDtoPaging = rService.listAllRecruitmentPageable(userAuthenticated.getIdCompany(), pageNo,
+		Page<RecruitmentEntity> recruimenstDtoPaging = rService.listAllRecruitmentPageable(
+				userAuthenticated.getIdCompany(), pageNo,
 				pageSize);
 		int numberPage = recruimenstDtoPaging.getTotalPages();
 		int[] arr = utils.getNumberPagation(numberPage);
@@ -255,7 +257,7 @@ public class RecruitmentController {
 		String total = String.valueOf(listReSameCategoryId.getNumberOfElements());
 		String listUserSaveJobSize = String.valueOf(listUserSaveJob.size());
 		String listUserAppliedSize = String.valueOf(listUserSaveJob.size());
-		logger.info("Size list of listReSameCategoryId :" +total);
+		logger.info("Size list of listReSameCategoryId :" + total);
 		logger.info("Size list of recruitment : listUserSaveJobSize : " + listUserSaveJobSize);
 		logger.info("Size list of recruitment : listUserAppliedSize : " + listUserAppliedSize);
 		numberPage = listReSameCategoryId.getTotalPages();
@@ -369,7 +371,7 @@ public class RecruitmentController {
 		String listUserAppliedSize = String.valueOf(listUserSaveJob.size());
 		logger.info("Size list of recruitment : " + listUserSaveJobSize);
 		logger.info("Size list of recruitment : " + listUserAppliedSize);
-		
+
 		return "public/load/company-post/edit-post";
 	}
 
@@ -488,9 +490,9 @@ public class RecruitmentController {
 			HttpSession session, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		int pageSize = 5;
 
-		Page<RecruitmentEntity> results = rService.findReBySearchingTittle(keySearch, page, pageSize);
+		Page<RecruitmentResponseFindDto> results = rService.findReBySearchingTittle(keySearch, page, pageSize);
 		String username = SecurityUtils.getSessionUsername();
-		if(username != null){
+		if (username != null) {
 			UserDto userAuthenticated = userService.getCurrentUserDto();
 			theModel.addAttribute("user", userAuthenticated);
 			if (!roleService.isCompany(userAuthenticated)) {
@@ -498,7 +500,6 @@ public class RecruitmentController {
 				theModel.addAttribute("cvs", cvs);
 			}
 		}
-
 
 		int numberPage = results.getTotalPages();
 		int[] arr = utils.getNumberPagation(numberPage);
@@ -517,16 +518,16 @@ public class RecruitmentController {
 			HttpSession session, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 
 		int pageSize = 5;
-		Page<RecruitmentEntity> results = rService.findReBySearchingAddress(keySearch, page, pageSize);
+		Page<RecruitmentResponseFindDto> results = rService.findReBySearchingAddress(keySearch, page, pageSize);
 
 		String username = SecurityUtils.getSessionUsername();
-		if(username != null){
+		if (username != null) {
 			UserDto userAuthenticated = userService.getCurrentUserDto();
 			theModel.addAttribute("user", userAuthenticated);
 			if (!roleService.isCompany(userAuthenticated)) {
 				List<CvDto> cvs = cvService.findCvByUserId(userAuthenticated.getId());
 				theModel.addAttribute("cvs", cvs);
-			}	
+			}
 		}
 		int numberPage = results.getTotalPages();
 		int[] arr = utils.getNumberPagation(numberPage);

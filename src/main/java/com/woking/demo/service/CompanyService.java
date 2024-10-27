@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.woking.demo.dto.CompanyDto;
+import com.woking.demo.dto.CompanyResponseFindDto;
 import com.woking.demo.entity.CompanyEntity;
 
 public interface CompanyService {
@@ -24,6 +25,7 @@ public interface CompanyService {
     
     //Finding function: 
     Page<CompanyDto> findByKeyword(String keyword,int pageNo, int pageSize);
+    Page<CompanyResponseFindDto> findCompanybyKeywordToDTO(String keySearch, Integer pageNo, int pageSize);
     
     
 }

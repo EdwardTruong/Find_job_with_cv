@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.woking.demo.dao.RecruitmentDao;
 import com.woking.demo.dto.RecruitmentDto;
+import com.woking.demo.dto.RecruitmentResponseFindDto;
 import com.woking.demo.entity.RecruitmentEntity;
 import com.woking.demo.mapper.RecruitmentMapper;
 
@@ -35,7 +36,7 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 
     @Override
     public List<RecruitmentEntity> loadAll() {
-      return(List<RecruitmentEntity>) rDao.findAll();
+        return (List<RecruitmentEntity>) rDao.findAll();
     }
 
     @Override
@@ -56,26 +57,23 @@ public class RecruitmentServiceImpl implements RecruitmentService {
         return result.orElse(null);
     }
 
-
     @Override
     @Transactional
     public void delete(RecruitmentEntity recruitmentEntity) {
         rDao.delete(recruitmentEntity);
     }
 
-
-
     @Override
-    public Page<RecruitmentEntity> listAllRecruitmentPageable( Integer id, int pageNo,int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize,Sort.by("id").ascending());
-        Page<RecruitmentEntity> listEntity = rDao.findAllEntityById(id,pageable);
+    public Page<RecruitmentEntity> listAllRecruitmentPageable(Integer id, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("id").ascending());
+        Page<RecruitmentEntity> listEntity = rDao.findAllEntityById(id, pageable);
         return listEntity;
     }
 
     @Override
     public List<RecruitmentDto> loadAllToDto() {
         List<RecruitmentEntity> listEntity = loadAll();
-            return recruitmentMapper.getListRecruitmentDto(listEntity);
+        return recruitmentMapper.getListRecruitmentDto(listEntity);
     }
 
     @Override
@@ -86,49 +84,48 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 
     @Override
     public Page<RecruitmentEntity> findRecruitmentDtoSameCategoryId(Integer categoryId, int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
-        return rDao.findRecruitmentsSameCategoryId(categoryId,pageable);
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return rDao.findRecruitmentsSameCategoryId(categoryId, pageable);
     }
 
     @Override
     public List<RecruitmentDto> listRecruitmentDtoByCompanyId(Integer id) {
         List<RecruitmentEntity> listEntity = rDao.findAllEntityByCompnyId(id);
-       return recruitmentMapper.getListRecruitmentDto(listEntity);
+        return recruitmentMapper.getListRecruitmentDto(listEntity);
     }
 
     @Override
-    public Page<RecruitmentEntity> findReBySearchingTittle(String keySearch, int pageNo, int pageSize) {
-        
-    	
-        List<RecruitmentEntity> listRe = rDao.searchingTitle(keySearch);
+    public Page<RecruitmentResponseFindDto> findReBySearchingTittle(String keySearch, int pageNo, int pageSize) {
 
-        Pageable pageable = PageRequest.of(pageNo -1 , pageSize, Sort.by("createdAt").descending());
-        
-        int start = (int)pageable.getOffset();
+        List<RecruitmentResponseFindDto> listRe = rDao.searchingTitle(keySearch);
 
-        if(pageNo > 1) {
-			start = 0;
-		}
-		
-		int end = (int)(pageable.getOffset()+pageable.getPageSize() > listRe.size() ? listRe.size() : (pageable.getOffset()+pageable.getPageSize()));
-		
-        List<RecruitmentEntity> newLisst = listRe.subList(start, end);
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("createdAt").descending());
+
+        int start = (int) pageable.getOffset();
+
+        if (pageNo > 1) {
+            start = 0;
+        }
+
+        int end = (int) (pageable.getOffset() + pageable.getPageSize() > listRe.size() ? listRe.size()
+                : (pageable.getOffset() + pageable.getPageSize()));
+
+        List<RecruitmentResponseFindDto> newLisst = listRe.subList(start, end);
 
         return new PageImpl<>(newLisst, pageable, listRe.size());
-   
+
     }
 
     @Override
-    public List<RecruitmentEntity> findReBySearchingBar(String keySearch) {
-       return rDao.searchingTitle(keySearch);
+    public List<RecruitmentResponseFindDto> findReBySearchingBar(String keySearch) {
+        return rDao.searchingTitle(keySearch);
     }
-
 
     @Override
-    public Page<RecruitmentEntity> findReBySearchingAddress(String keySearch, int pageNo , int pageSize) {
-    	
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("createdAt").descending());
-        return rDao.searchingAddress(keySearch,pageable);
+    public Page<RecruitmentResponseFindDto> findReBySearchingAddress(String keySearch, int pageNo, int pageSize) {
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("createdAt").descending());
+        return rDao.searchingAddress(keySearch, pageable);
     }
-    
+
 }
