@@ -7,11 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.woking.demo.dto.UserDto;
+import com.woking.demo.dto.UserInfoDto;
 import com.woking.demo.entity.CvEntity;
 import com.woking.demo.entity.UserEntity;
 
 import jakarta.mail.MessagingException;
-
+import jakarta.validation.Valid;
 
 /*
  * 1.The method getCurrentUserDto return UserDto get a user when they logined success. 
@@ -59,28 +60,37 @@ import jakarta.mail.MessagingException;
  * 		
  */
 
-
 public interface UserService {
 
-	
 	public UserDto getCurrentUserDto();
-	
-    List<UserDto> findAllUser();
 
-    UserEntity findById(Integer id);
+	List<UserDto> findAllUser();
+
+	UserEntity findById(Integer id);
+
 	String saveNewUser(UserDto userDto);
+
 	void save(UserEntity user);
-	void updateUser(UserEntity entity);
+
+	void update(UserEntity entity);
+
+	void updateUser(UserInfoDto userInformation, UserDto userAuthenticated);
+
 	void deleteUserById(Integer id);
-	
+
 	UserEntity findUserByEmail(String email);
+
 	boolean emailExsit(UserDto userDto);
 
-//	boolean setImageForUser(MultipartFile file, UserEntity theUser);
+	// boolean setImageForUser(MultipartFile file, UserEntity theUser);
 	boolean setImageForUserEntity(MultipartFile file, UserEntity theUser) throws IOException;
+
 	void addNewCv(CvEntity cv, UserEntity userEntity);
-	
+
 	Page<UserEntity> findUserBySearchingBar(String input, int pageNo, int pageSize);
+
 	void sendEmailActiveUserStatus(UserDto dto) throws MessagingException;
+
+	public UserInfoDto getInfoUserDto(Integer id);
 
 }

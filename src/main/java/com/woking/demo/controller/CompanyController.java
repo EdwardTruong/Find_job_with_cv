@@ -21,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.woking.demo.config.SecurityUtils;
+import com.woking.demo.dto.CompanyInfoDto;
 import com.woking.demo.dto.UserDto;
+import com.woking.demo.dto.UserInfoDto;
 import com.woking.demo.entity.CompanyEntity;
 import com.woking.demo.entity.RoleEntity;
 import com.woking.demo.entity.UserEntity;
@@ -41,7 +43,6 @@ import com.woking.demo.utils.ApplicationUtils;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
-
 /*
  * Company 
  * 1. The method profile use to see all information of company.
@@ -52,7 +53,6 @@ import jakarta.validation.Valid;
  * 	
  * 
  */
-
 
 @Controller
 @RequestMapping("/company")
@@ -94,92 +94,71 @@ public class CompanyController {
 
 	@Autowired
 	FileService fileService;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(CompanyController.class);
 
 	List<UserEntity> listUserFollower = new ArrayList<>();
 	List<RoleEntity> roles = new ArrayList<>();
-	
+
 	// DOUBLE CHECK DONE
 	@GetMapping("/profile")
 	public String profile(Integer id, Model theModel, HttpSession session) {
-		try {
-			UserDto userAuthenticated  = userService.getCurrentUserDto();
 
-			CompanyEntity companyEntity = companyService.findCompanyEntityById(userAuthenticated .getIdCompany());
-			UserEntity userEntity = companyEntity.getUser();
-			
-			roles = userEntity.getAuthorities();
-			listUserFollower = companyEntity.getListUserFollow();
-			theModel.addAttribute("companyInformation", companyEntity);
-			theModel.addAttribute("userInformation", userEntity);
-			session.setAttribute("user", userAuthenticated );
-			session.setAttribute("company", companyEntity);
-
-			return "public/user/profile";
-
-		} catch (UserNotFoundException e) {
-			throw new UserNotFoundException("User not found !");
-		}
-	}
-
-	// DOUBLE CHECK DONE
-	@PostMapping("/update/user")
-	public String updateUserProfile(@Valid @ModelAttribute("userInformation") UserEntity userInformation,
-			BindingResult bindingResult, Model theModel, RedirectAttributes redirectAttributes, HttpSession session) {
-		CompanyEntity company = userInformation.getCompanyEntity();
 		UserDto userAuthenticated = userService.getCurrentUserDto();
-		if (bindingResult.hasErrors()) {
-			theModel.addAttribute("companyInformation", company);
-			theModel.addAttribute("error", "Can not update informations");
-			return "public/user/profile";
-		}
-		userInformation.setId(userAuthenticated.getId());
-		userInformation.setPassword(userAuthenticated.getPassword());
-		userInformation.setStatus(userAuthenticated.isStatus());
-		userInformation.setCompanyEntity(company);
-		userInformation.setAuthorities(roles);
-		userService.updateUser(userInformation);
-		logger.info(userInformation.getAuthorities().toString());
-		redirectAttributes.addFlashAttribute("success", "Update information success.");
-		return "redirect:/company/profile";
+		UserInfoDto user = userService.getInfoUserDto(userAuthenticated.getId());
+		CompanyInfoDto companyEntity = companyService.findCompanyInfoDtoById(userAuthenticated.getIdCompany());
+		theModel.addAttribute("companyInformation", companyEntity);
+		theModel.addAttribute("userInformation", user);
+		session.setAttribute("user", userAuthenticated);
+		session.setAttribute("company", companyEntity);
+
+		return "public/user/profile";
 	}
 
+	/*
+	 * Update CompanyEntity by companyDto.
+	 * First, converting dto -> entity : In layer service, take all infomations of
+	 * dto was edited and get it for entity.
+	 * And then, using saveAndFlush entity.
+	 */
 	@PostMapping("/update")
-	public String updateCompanyProfile(@Valid @ModelAttribute("companyInformation") CompanyEntity companyInformation,
+	public String updateCompanyProfile(@Valid @ModelAttribute("companyInformation") CompanyInfoDto companyInformation,
 			BindingResult bindingResult, Model theModel, RedirectAttributes redirectAttributes) {
+
+		UserDto userAuthenticated = userService.getCurrentUserDto();
+		UserInfoDto user = userService.getInfoUserDto(userAuthenticated.getId());
 		if (bindingResult.hasErrors()) {
 			theModel.addAttribute("companyInformation", companyInformation);
-			theModel.addAttribute("userInformation", companyInformation.getUser());
+			theModel.addAttribute("userInformation", user);
 			theModel.addAttribute("error", "Can not update informations");
 			return "public/user/profile";
 		}
-		companyInformation.setListUserFollow(listUserFollower);
-		companyService.update(companyInformation);
+		companyService.updateCompanyInfo(companyInformation, userAuthenticated);
+		logger.info("Update company success " + companyInformation.getName());
+
 		redirectAttributes.addFlashAttribute("success", "Update information success.");
 		return "redirect:/company/profile";
 	}
 
-	
 	@PostMapping("/uploadLogo/")
 	public ResponseEntity<String> uploadLogo(@RequestParam("image") MultipartFile logo, Model theModel)
 			throws IOException {
 
 		UserDto userAuthenticated = userService.getCurrentUserDto();
-		
+
 		if (!imageService.isImage(logo)) {
 			return ResponseEntity.ok("notAllow");
 		}
 		if (!imageService.checkSizeImage(logo)) {
 			return ResponseEntity.ok("overSize");
 		}
-		
+
 		CompanyEntity companyEntity = companyService.findCompanyEntityById(userAuthenticated.getIdCompany());
 
-		if(companyEntity.getLogo() != null) {
-			fileService.deleteFile(companyEntity.getLogo(), null);			
+		if (companyEntity.getLogo() != null) {
+			fileService.deleteFile(companyEntity.getLogo(), null);
 		}
-		
+
 		companyService.setLogo(companyEntity, logo);
 
 		return ResponseEntity.ok("true");

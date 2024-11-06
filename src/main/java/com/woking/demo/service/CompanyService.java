@@ -6,8 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.woking.demo.dto.CompanyDto;
+import com.woking.demo.dto.CompanyInfoDto;
 import com.woking.demo.dto.CompanyResponseFindDto;
+import com.woking.demo.dto.UserDto;
 import com.woking.demo.entity.CompanyEntity;
+
+import jakarta.validation.Valid;
 
 public interface CompanyService {
     List<CompanyEntity> loadAll();
@@ -26,6 +30,8 @@ public interface CompanyService {
     //Finding function: 
     Page<CompanyDto> findByKeyword(String keyword,int pageNo, int pageSize);
     Page<CompanyResponseFindDto> findCompanybyKeywordToDTO(String keySearch, Integer pageNo, int pageSize);
+    CompanyInfoDto findCompanyInfoDtoById(Integer idCompany);
+    void updateCompanyInfo(@Valid CompanyInfoDto companyInformation, UserDto userAuthenticated);
     
     
 }

@@ -1,6 +1,5 @@
 package com.woking.demo.mapper;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.woking.demo.dao.RoleDao;
 import com.woking.demo.dto.UserDto;
+import com.woking.demo.dto.UserInfoDto;
 import com.woking.demo.entity.UserEntity;
 
 import lombok.Getter;
@@ -21,19 +21,19 @@ public class UserMapper {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	RoleDao roleDao;
 
 	@Autowired
 	RoleMapper roleMapper;
 
-	 @Autowired
-	 CvMapper cvMapper;
+	@Autowired
+	CvMapper cvMapper;
 
-	 /*
-	  * First step login success to reach convert from entity -> UserDTO 
-	  */
+	/*
+	 * First step login success to reach convert from entity -> UserDTO
+	 */
 	public UserDto toDto(UserEntity entity) {
 		UserDto dto = new UserDto();
 		dto.setId(entity.getId());
@@ -44,37 +44,47 @@ public class UserMapper {
 		dto.setAddress(entity.getAddress());
 		dto.setPhoneNumber(entity.getPhoneNumber());
 		dto.setDescription(entity.getDescription());
-		if(entity.getAvatar() != null){
+		if (entity.getAvatar() != null) {
 			dto.setAvatar(entity.getAvatar());
 		}
 
-		dto.setRole(entity.getAuthorities().get(0).getId()); 
-		if(entity.getCompanyEntity() != null){
+		dto.setRole(entity.getAuthorities().get(0).getId());
+		if (entity.getCompanyEntity() != null) {
 			dto.setIdCompany(entity.getCompanyEntity().getId());
 		}
 		return dto;
-	 }
-
-	public List<UserDto> listUserEntityToDto(List<UserEntity> listUserEntity){
-		return listUserEntity.stream().map(entity->toDto(entity)).toList();
 	}
- 
-	 public UserEntity toEntity(UserDto dto) {
+
+	public List<UserDto> listUserEntityToDto(List<UserEntity> listUserEntity) {
+		return listUserEntity.stream().map(entity -> toDto(entity)).toList();
+	}
+
+	public UserEntity toEntity(UserDto dto) {
 		UserEntity entity = new UserEntity();
 		entity.setId(dto.getId());
-		entity.setAddress(dto.getAddress()); 
+		entity.setAddress(dto.getAddress());
 		entity.setDescription(dto.getDescription());
 		entity.setEmail(dto.getEmail());
 		entity.setFullName(dto.getFullName());
 		entity.setPassword(dto.getPassword());
 		entity.setPhoneNumber(dto.getPhoneNumber());
 		entity.setStatus(dto.isStatus());
-		 return entity;
-	 }
-
-	public List<UserEntity> listToEntity(List<UserDto> listUserDto){
-		return listUserDto.stream().map(dto->toEntity(dto)).toList();
+		return entity;
 	}
-	 
+
+	public List<UserEntity> listToEntity(List<UserDto> listUserDto) {
+		return listUserDto.stream().map(dto -> toEntity(dto)).toList();
+	}
+
+	public UserInfoDto toInfoDto(UserEntity entity) {
+		return UserInfoDto.builder()
+				.address(entity.getAddress())
+				.email(entity.getEmail())
+				.fullName(entity.getFullName())
+				.description(entity.getDescription())
+				.phoneNumber(entity.getPhoneNumber())
+				.avatar(entity.getAvatar())
+				.build();
+	}
 
 }

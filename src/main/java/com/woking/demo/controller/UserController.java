@@ -33,6 +33,7 @@ import com.woking.demo.dto.CompanyDto;
 import com.woking.demo.dto.CompanyResponseFindDto;
 import com.woking.demo.dto.CvDto;
 import com.woking.demo.dto.UserDto;
+import com.woking.demo.dto.UserInfoDto;
 import com.woking.demo.entity.CompanyEntity;
 import com.woking.demo.entity.CvEntity;
 import com.woking.demo.entity.RecruitmentEntity;
@@ -141,11 +142,6 @@ public class UserController {
 	@Autowired
 	CompanyMapper companyMapper;
 
-	List<RecruitmentEntity> listUserSaved = new ArrayList<>();
-	List<CompanyEntity> listUserFollow = new ArrayList<>();
-	List<RecruitmentEntity> listUserApplied = new ArrayList<>();
-	List<RoleEntity> roles = new ArrayList<>();
-
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	// 1. DOUBLE CHECK DONE !
@@ -154,7 +150,7 @@ public class UserController {
 			throws IOException {
 
 		UserDto userAuthenticated = userService.getCurrentUserDto();
-		UserEntity user = userService.findById(userAuthenticated.getId());
+		UserInfoDto user = userService.getInfoUserDto(userAuthenticated.getId());
 
 		System.out.println("Check in from UserController : userProfile : + user.getAvatar() :" + user.getAvatar());
 
@@ -162,29 +158,16 @@ public class UserController {
 		theModel.addAttribute("user", userAuthenticated);
 		theModel.addAttribute("userInformation", user);
 
-		listUserApplied = user.getListAppliedOfUser();
-		listUserFollow = user.getListCompanyFollower();
-		listUserSaved = user.getListSavejob();
-		roles = user.getAuthorities();
-		for (RecruitmentEntity r : user.getListAppliedOfUser()) {
-			logger.info("List applied of user :  " + r.toString());
-
-		}
-
-		theModel.addAttribute("listCvEntity", user.getListCvEntity());
-
-		List<CvDto> cvs = cvMapper.toListDto(user.getListCvEntity());
+		List<CvDto> cvs = cvService.findCvByUserId(userAuthenticated.getId());
 		if (!cvs.isEmpty()) {
 			theModel.addAttribute("cvs", cvs);
+			theModel.addAttribute("listCvEntity", cvs);
 		}
 		fileService.initCreateLocalDisk(userAuthenticated.getId());
-		userAuthenticated = userMapper.toDto(user);
-
-		theModel.addAttribute("files",
-				fileService.loadAll(userAuthenticated.getId()).map(path -> MvcUriComponentsBuilder
-						.fromMethodName(UserController.class, "serveFile", path.getFileName().toString(), user.getId(),
-								session)
-						.build().toUri().toString()).collect(Collectors.toList()));
+		theModel.addAttribute("files", fileService.loadAll(userAuthenticated.getId())
+				.map(path -> MvcUriComponentsBuilder.fromMethodName(UserController.class, "serveFile",
+						path.getFileName().toString(), userAuthenticated.getId(), session).build().toUri().toString())
+				.collect(Collectors.toList()));
 		return "public/user/profile";
 	}
 
@@ -224,7 +207,7 @@ public class UserController {
 
 	// 4.DOUBLE CHECK DONE !
 	@PostMapping("/update")
-	public String updateInfo(@Valid @ModelAttribute("userInformation") UserEntity userInformation,
+	public String updateInfo(@Valid @ModelAttribute("userInformation") UserInfoDto userInformation,
 			BindingResult bindingResult, HttpSession session, RedirectAttributes redirectAttributes, Model theModel) {
 
 		UserDto userAuthenticated = userService.getCurrentUserDto();
@@ -233,15 +216,16 @@ public class UserController {
 			return "public/user/profile";
 		}
 
-		userInformation.setId(userAuthenticated.getId());
-		userInformation.setPassword(userAuthenticated.getPassword());
-		userInformation.setStatus(userAuthenticated.isStatus());
-		userInformation.setListAppliedOfUser(listUserApplied);
-		userInformation.setListCompanyFollower(listUserFollow);
-		userInformation.setListSavejob(listUserApplied);
-		userInformation.setAuthorities(roles);
-		userService.save(userInformation);
+		userService.updateUser(userInformation, userAuthenticated); // fix cái này
 		redirectAttributes.addFlashAttribute("success", "Update information success.");
+
+		if (userAuthenticated.getIdCompany() != null) {
+			System.out.println(
+					"========================================== Company update info's user ==========================================");
+			return "redirect:/company/profile";
+		}
+		logger.info(
+				"========================================== User update ==========================================");
 		return "redirect:/user/profile";
 	}
 
